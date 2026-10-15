@@ -2,7 +2,12 @@ name: Claude PR review
 
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review]
+    types: [opened, reopened, ready_for_review, synchronize]
+
+# A newer push replaces a review still in progress, so quick fix-up pushes cost one review.
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   review:
@@ -38,7 +43,7 @@ jobs:
 
             The repository is checked out in the working directory. Use `gh pr view`, `gh pr diff` and `gh api` for PR metadata and diffs.
 
-            1. Fetch the PR, its diff and the files it touches. If this exact head commit already has a review from github-actions[bot], stop without posting.
+            1. Fetch the PR, its diff and the files it touches. If this exact head commit already has a review from github-actions[bot], stop without posting. If github-actions[bot] reviewed an earlier commit of this PR, this is a re-review after new pushes: read your earlier review, check whether each of its findings is now fixed, and focus on what changed since that commit. Say in the review body which earlier findings are fixed and which still stand; do not repeat inline comments for findings that are unchanged.
             2. If the repository has a `REVIEW.md` at its root, its rules are binding for this review. Also respect `CLAUDE.md` / `AGENTS.md` conventions where they exist.
             3. Review for real defects: correctness bugs, security problems, data loss, broken error handling, race conditions, wrong API use, and anything REVIEW.md forbids. Read surrounding code before claiming a bug. Skip style nits and anything a linter would catch. Verify each finding against the code; drop anything you cannot back with a concrete failure scenario.
             4. Post ONE pull request review with `gh api repos/{owner}/{repo}/pulls/{number}/reviews` (event COMMENT, never APPROVE or REQUEST_CHANGES) on the head commit: an inline comment per finding on the exact line, each stating the problem, the concrete failure, and a suggested fix (a GitHub ```suggestion block when it is a small local change). The review body is a short summary: what the PR does in one or two lines, then the findings ranked by severity. If there are no findings, post a brief review saying so.
