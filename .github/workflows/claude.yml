@@ -1,0 +1,24 @@
+# Installed and kept up to date by puIad/claude-actions. Edit it there: local edits get overwritten.
+# To opt this repo out, give it the topic "no-claude" and delete this file.
+name: Claude
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, reopened]
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  claude:
+    uses: puIad/claude-actions/.github/workflows/reusable.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    secrets:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      CLAUDE_CODE_OAUTH_TOKEN_TEAM: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_TEAM }}
