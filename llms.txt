@@ -1,0 +1,14 @@
+# POLYMAZE-Champions-League
+
+> Draw page for the POLYMAZE robotics competition. Enter 12 team names in two tiers (or import them), run the draw, and get league-phase fixtures with maze assignments and a schedule. No build step.
+
+## Docs
+
+- [README.md](https://github.com/puIad/POLYMAZE-Champions-League/blob/main/README.md): how to use it
+
+## Source
+
+- [app.js](https://github.com/puIad/POLYMAZE-Champions-League/blob/main/app.js): draw, maze assignment and schedule logic
+- [index.html](https://github.com/puIad/POLYMAZE-Champions-League/blob/main/index.html): screens
+- [styles.css](https://github.com/puIad/POLYMAZE-Champions-League/blob/main/styles.css): styles
+- [Design-System](https://github.com/puIad/POLYMAZE-Champions-League/tree/main/Design-System): brand assets
